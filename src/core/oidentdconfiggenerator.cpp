@@ -79,11 +79,16 @@ bool OidentdConfigGenerator::addSocket(const CoreIdentity *identity, const QHost
 }
 
 
-//! not yet implemented
 bool OidentdConfigGenerator::removeSocket(const CoreIdentity *identity, const QHostAddress &localAddress, quint16 localPort, const QHostAddress &peerAddress, quint16 peerPort)
 {
-    Q_UNUSED(identity) Q_UNUSED(localAddress) Q_UNUSED(localPort) Q_UNUSED(peerAddress) Q_UNUSED(peerPort)
-    return true;
+    Q_UNUSED(localAddress) Q_UNUSED(peerAddress) Q_UNUSED(peerPort)
+    QString ident = identity->ident();
+
+    _quasselConfig.replace(_quasselStanzaTemplate.arg(localPort).arg(ident).arg(_configTag).toLatin1(), "");
+
+    bool ret = writeConfig();
+
+    return ret;
 }
 
 
